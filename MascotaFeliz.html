@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MascotaFeliz · Los mejores amigos de Maipú</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== VARIABLES (Nombres en Español) ===== */
+        :root {
+            --color-principal: #00B4D8;      /* Azul Cian Mascota */
+            --color-secundario: #FF9F1C;    /* Naranja Juguete */
+            --color-acento: #E63946;        /* Rojo Corazón */
+            --color-crema: #F8F9FA;         /* Fondo suave */
+            --color-oscuro: #2B2D42;        /* Texto elegante */
+        }
+
+        /* ===== ESTILOS GLOBALES ===== */
+        body {
+            font-family: 'Quicksand', sans-serif;
+            color: var(--color-oscuro);
+            background-color: white;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .fuente-titulo {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+        }
+
+        /* ===== BOTONES "TEACHER STYLE" ===== */
+        .btn-mascota {
+            background-color: var(--color-secundario);
+            color: white;
+            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 0 #CC7E16;
+        }
+
+        .btn-mascota:hover {
+            background-color: #E68A00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #CC7E16;
+            color: white;
+        }
+
+        /* ===== TARJETAS DE PRODUCTOS DETALLADAS ===== */
+        .tarjeta-producto {
+            background-color: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+            border: 2px solid transparent;
+            opacity: 0; 
+            transform: translateY(30px);
+        }
+
+        .tarjeta-producto.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tarjeta-producto:hover {
+            transform: scale(1.03) rotate(1deg);
+            border-color: var(--color-principal);
+            box-shadow: 0 15px 35px rgba(0, 180, 216, 0.2);
+        }
+
+        .contenedor-img {
+            height: 200px;
+            background-color: var(--color-crema);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .contenedor-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s;
+        }
+
+        .tarjeta-producto:hover .contenedor-img img {
+            transform: rotate(-5deg) scale(1.1);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-pets {
+            background: linear-gradient(135deg, var(--color-principal) 0%, #0077B6 100%);
+            padding: 6rem 0;
+            color: white;
+            position: relative;
+        }
+
+        .hero-titulo {
+            font-size: 4.5rem;
+            text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        }
+
+        /* ===== BURBUJA DE DIÁLOGO ===== */
+        .burbuja-texto {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 25px 25px 25px 5px;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            color: var(--color-oscuro);
+            border: 3px solid var(--color-secundario);
+        }
+
+        /* ===== NEWSLETTER / EL GANCHO ===== */
+        .seccion-cupon {
+            background: var(--color-oscuro);
+            border-radius: 40px;
+            padding: 4rem;
+            color: white;
+            margin-top: 4rem;
+        }
+
+        .input-pro {
+            border-radius: 15px;
+            padding: 12px 20px;
+            border: 2px solid #3d405b;
+            background: #3d405b;
+            color: white;
+        }
+
+        .input-pro:focus {
+            background: #4a4e69;
+            border-color: var(--color-principal);
+            color: white;
+            box-shadow: none;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer-mascota {
+            background-color: #1a1a1a;
+            color: #aaa;
+            padding: 4rem 0 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg bg-white py-3 shadow-sm sticky-top">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <span class="fuente-titulo fs-1 text-info"><i class="fas fa-paw me-2"></i>Mascota</span>
+                    <span class="fuente-titulo fs-1 text-warning">Feliz</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion" aria-controls="menuNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuNavegacion">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item"><a class="nav-link fw-bold px-3" href="#inicio">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link fw-bold px-3" href="#productos">Productos</a></li>
+                        <li class="nav-item"><a class="nav-link fw-bold px-3" href="#testimonios">Fans</a></li>
+                        <li class="nav-item ms-lg-3">
+                            <a class="btn-mascota text-decoration-none" href="#gancho">
+                                <i class="fas fa-ticket-alt me-2"></i>Cupón 10%
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero-pets">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold">
+                            <i class="fas fa-map-marker-alt me-2"></i>En el corazón de Maipú
+                        </span>
+                        <h1 class="hero-titulo mb-4">¡Guau, qué alegría <br> verte aquí!</h1>
+                        <div class="burbuja-texto mb-4">
+                            <p class="fs-5 mb-0">
+                                <strong>MascotaFeliz</strong> es el lugar donde los sueños de tus peluditos se hacen realidad. 
+                                Calidad premium para ciudadanos de 4 patas.
+                            </p>
+                        </div>
+                        <a href="#productos" class="btn btn-light btn-lg rounded-pill fw-bold px-4 py-3 text-info shadow">
+                            Ver catálogo de hoy <i class="fas fa-chevron-right ms-2"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-6 d-none d-lg-block text-center">
+                        <img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?q=80&w=600&auto=format&fit=crop" 
+                             class="img-fluid rounded-circle shadow-lg border border-5 border-white animate-bounce" 
+                             alt="Perro feliz">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="productos" class="py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="display-4 fw-bold">Lo mejor para <span class="text-info">tus amigos</span></h2>
+                    <p class="lead text-muted">Selección curada por expertos veterinarios.</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6">
+                        <article class="tarjeta-producto">
+                            <div class="contenedor-img">
+                                <img src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400" alt="Comida Perro">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="fuente-titulo h4">Súper Alimento Pro</h3>
+                                <p class="small text-secondary">Nutrición total para perros adultos.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fs-4 fw-bold text-info">$24.990</span>
+                                    <button class="btn btn-sm btn-outline-info rounded-pill">Detalles</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <article class="tarjeta-producto">
+                            <div class="contenedor-img">
+                                <img src="https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400" alt="Rascador Gato">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="fuente-titulo h4">Rascador Zen</h3>
+                                <p class="small text-secondary">El paraíso de uñas para tu gatito.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fs-4 fw-bold text-info">$18.500</span>
+                                    <button class="btn btn-sm btn-outline-info rounded-pill">Detalles</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <article class="tarjeta-producto">
+                            <div class="contenedor-img">
+                                <img src="https://images.unsplash.com/photo-1544568100-847a948585b9?w=400" alt="Cama Perro">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="fuente-titulo h4">Cama Nube Real</h3>
+                                <p class="small text-secondary">Descanso ortopédico garantizado.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fs-4 fw-bold text-info">$32.000</span>
+                                    <button class="btn btn-sm btn-outline-info rounded-pill">Detalles</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonios" class="py-5 bg-light">
+            <div class="container text-center">
+                <div class="mb-5">
+                    <h2 class="display-5 fw-bold">Lo que dicen los <span class="text-warning">Pet Lovers</span></h2>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm p-4 text-center" style="border-radius: 20px;">
+                            <img src="https://randomuser.me/api/portraits/women/45.jpg" class="rounded-circle mx-auto mb-3" width="70" alt="Usuaria">
+                            <h3 class="fw-bold h5">Mónica J.</h3>
+                            <p class="fst-italic text-muted">"La mejor tienda de Maipú. Mis perritos aman los juguetes que compramos aquí."</p>
+                            <div class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm p-4 text-center" style="border-radius: 20px;">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle mx-auto mb-3" width="70" alt="Usuario">
+                            <h3 class="fw-bold h5">Ricardo H.</h3>
+                            <p class="fst-italic text-muted">"Increíble variedad para gatos. El servicio de entrega es muy puntual."</p>
+                            <div class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm p-4 text-center" style="border-radius: 20px;">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle mx-auto mb-3" width="70" alt="Usuaria">
+                            <h3 class="fw-bold h5">Patricia L.</h3>
+                            <p class="fst-italic text-muted">"El cupón de descuento me ayudó muchísimo con la primera compra. ¡Gracias!"</p>
+                            <div class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gancho" class="container pb-5">
+            <div class="seccion-cupon shadow-lg">
+                <div class="row align-items-center text-center">
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <span class="display-1">🎁</span>
+                        <h2 class="fuente-titulo fs-1 mt-3">¡Únete al Club!</h2>
+                        <p class="lead">Regístrate y recibe un <strong>10% de descuento</strong> en tu próxima compra.</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <form id="formularioRegistro" onsubmit="return manejarRegistro()">
+                            <div class="mb-3 text-start">
+                                <label class="form-label fw-bold" for="nombreHumano">Nombre del humano</label>
+                                <input type="text" class="form-control input-pro" id="nombreHumano" placeholder="Ej: Juan" required>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label class="form-label fw-bold" for="email">Correo electrónico</label>
+                                <input type="email" class="form-control input-pro" id="email" placeholder="hola@ejemplo.cl" required>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label class="form-label fw-bold" for="tipoMascota">¿A quién vamos a consentir?</label>
+                                <select class="form-select input-pro" id="tipoMascota">
+                                    <option>Un Perro 🐶</option>
+                                    <option>Un Gato 🐱</option>
+                                    <option>Un Ave 🦜</option>
+                                    <option>Otro amiguito 🐹</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-mascota w-100 py-3 mt-2">
+                                <i class="fas fa-magic me-2"></i>¡Obtener mi Cupón!
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contacto" class="footer-mascota">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-5">
+                    <h3 class="fuente-titulo fs-2 text-info mb-4">MascotaFeliz Maipú</h3>
+                    <p class="small">Líderes en felicidad animal en la Región Metropolitana. <br> Comprometidos con el bienestar de tus mejores amigos.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="text-white fs-4" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white fs-4" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-white fs-4" aria-label="Whatsapp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="fw-bold mb-4 text-white h5">Contacto Directo</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><i class="fas fa-map-marker-alt me-2 text-warning"></i> Av. Pajaritos 1234, Maipú, Chile</li>
+                        <li class="mb-3"><i class="fas fa-phone me-2 text-warning"></i> +56 9 1234 5678</li>
+                        <li class="mb-3"><i class="fas fa-envelope me-2 text-warning"></i> hola@mascotafeliz.cl</li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="fw-bold mb-4 text-white h5">Horario Pet-Friendly</h4>
+                    <p class="small mb-1">Lun - Vie: 09:00 a 20:00</p>
+                    <p class="small">Sábado: 10:00 a 18:00</p>
+                    <span class="badge bg-success">Abierto Hoy</span>
+                </div>
+            </div>
+            <hr class="border-secondary mt-5">
+            <div class="text-center small opacity-50">
+                <p>© 2026 MascotaFeliz · Landing Page Educativa · INACAP Maipú</p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="btnArriba" class="btn btn-mascota position-fixed bottom-0 end-0 m-4 rounded-circle p-3" style="display:none; z-index:1001;" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Volver arriba">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function manejarRegistro() {
+            const nombre = document.getElementById('nombreHumano').value;
+            const mascota = document.getElementById('tipoMascota').value;
+            alert(`¡Felicidades ${nombre}! 🐾\nEnviamos el cupón para ${mascota} a tu correo.\n¡Disfrútalo!`);
+            return false; 
+        }
+
+        const observador = new IntersectionObserver((entradas) => {
+            entradas.forEach(entrada => {
+                if (entrada.isIntersecting) {
+                    entrada.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.tarjeta-producto').forEach(tarjeta => {
+            observador.observe(tarjeta);
+        });
+
+        window.addEventListener('scroll', function() {
+            const btn = document.getElementById('btnArriba');
+            if (window.scrollY > 400) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+
+        console.log("%c🐾 MascotaFeliz Maipú cargado con éxito!", "color: #00B4D8; font-weight: bold; font-size: 16px;");
+    </script>
+</body>
+</html>
