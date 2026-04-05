@@ -1,2 +1,2 @@
 # MascotaFeliz
-landpage sobre la tienda de mascotas "MascotaFeliz"
+Landing Page sobre la tienda de mascotas "MascotaFeliz"
