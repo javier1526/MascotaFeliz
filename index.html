@@ -34,6 +34,12 @@
             letter-spacing: 2px;
         }
 
+        /* Accesibilidad: Focus visible universal */
+        *:focus-visible {
+            outline: 3px dashed var(--color-secundario) !important;
+            outline-offset: 4px;
+        }
+
         /* ===== BOTONES "TEACHER STYLE" ===== */
         .btn-mascota {
             background-color: var(--color-secundario);
@@ -151,6 +157,40 @@
             background-color: #1a1a1a;
             color: #aaa;
             padding: 4rem 0 2rem;
+        }
+
+        /* ===== ANIMACIONES ===== */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .animate-bounce {
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        /* ===== MEDIA QUERIES AVANZADAS ===== */
+        /* Ajustes para tablets (pantallas menores a 992px) */
+        @media (max-width: 991.98px) {
+            .hero-titulo {
+                font-size: 3.5rem;
+            }
+            .seccion-cupon {
+                padding: 2.5rem;
+            }
+        }
+
+        /* Ajustes para móviles (pantallas menores a 768px) */
+        @media (max-width: 767.98px) {
+            .hero-pets {
+                padding: 3rem 0;
+                text-align: center;
+            }
+            .hero-titulo {
+                font-size: 2.8rem;
+            }
+            .btn-mascota {
+                width: 100%;
+            }
         }
     </style>
 </head>
