@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario · MascotaFeliz</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-white py-3 shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <span class="fuente-titulo fs-1 text-info"><i class="fas fa-paw me-2"></i>Mascota</span>
+                <span class="fuente-titulo fs-1 text-warning">Feliz</span>
+            </a>
+            <div class="ms-auto">
+                <a href="index.html" class="btn-mascota-cyan">
+                    <i class="fas fa-home me-2 text-white"></i>Ir a Inicio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-3 fw-bold mb-2 titulo-sombra">Panel de <span class="text-info">Control</span></h1>
+            <p class="lead mb-0 fw-bold text-dark texto-sombra">Gestión de productos de Mascota Feliz Maipú.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="tarjeta-custom p-4">
+                    <h2 class="fuente-titulo text-warning mb-4"><i class="fas fa-edit me-2"></i>Ingresar Item</h2>
+                    <form id="formularioProducto" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Producto</label>
+                            <input type="text" id="nombreInput" class="form-control input-pro" placeholder="Haz clic para seleccionar..." readonly style="cursor: pointer;" onclick="abrirModalSeleccionBase()">
+                            <div id="errorNombre" class="error-msg"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Categoría</label>
+                            <select id="categoriaInput" class="form-select input-pro" required>
+                                <option value="">Selecciona...</option>
+                                <option value="Alimento">Alimento 🍖</option>
+                                <option value="Salud">Salud 🛁</option>
+                                <option value="Diversión">Diversión 🎾</option>
+                            </select>
+                            <div id="errorCategoria" class="error-msg">Por favor, elige una categoría.</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label fw-bold">Precio Unitario</label>
+                                <input type="number" id="precioInput" class="form-control input-pro" placeholder="1000" min="1" required>
+                                <div id="errorPrecio" class="error-msg">El precio debe ser mayor a 0.</div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label fw-bold">Cantidad</label>
+                                <input type="number" id="cantidadInput" class="form-control input-pro" placeholder="1" min="1" step="1" required>
+                                <div id="errorCantidad" class="error-msg">La cantidad debe ser al menos 1.</div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-mascota w-100 mt-3">
+                            <i class="fas fa-plus-circle me-2"></i>Añadir a la lista
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="tarjeta-custom p-4 h-100">
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <h2 class="fuente-titulo text-info d-flex align-items-center m-0">
+                                <i class="fas fa-list-check me-3"></i>Inventario
+                            </h2>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative">
+                                <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 opacity-50"></i>
+                                <input type="text" id="buscadorInput" class="form-control input-pro ps-5" placeholder="Buscar producto...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Cat.</th>
+                                    <th>Precio</th>
+                                    <th>Cant.</th>
+                                    <th>Subtotal</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTabla"></tbody>
+                        </table>
+                    </div>
+                    <div id="mensajeVacio" class="text-center py-5 opacity-50">
+                        <i class="fas fa-box-open display-1 mb-3"></i>
+                        <p>No se encontraron productos.</p>
+                    </div>
+                    <div class="mt-4 p-3 rounded-4 bg-info bg-opacity-10 border border-info d-flex justify-content-between align-items-center">
+                        <span class="h4 mb-0 fw-bold">Total General:</span>
+                        <span id="montoTotal" class="h2 mb-0 fw-bold text-info">$0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="overlayPrecio" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="fuente-titulo text-warning mb-3"><i class="fas fa-tag me-2"></i>Editar Precio</h3>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Nuevo Precio Unitario</label>
+                <input type="number" id="inputNuevoPrecio" class="form-control input-pro" placeholder="Ej: 5000" required min="1">
+                <div id="errorModalPrecio" class="error-msg"></div>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary w-50 fw-bold rounded-pill" onclick="cerrarModalPrecio()">Cancelar</button>
+                <button class="btn btn-mascota w-50" onclick="guardarNuevoPrecio()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlayCantidad" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="fuente-titulo text-info mb-3"><i class="fas fa-boxes me-2"></i>Gestionar Stock</h3>
+            <p id="textoStockActual" class="fw-bold text-secondary mb-3"></p>
+            
+            <div id="vistaOpcionesCant">
+                <p class="mb-3 fw-bold text-dark">¿Qué acción deseas realizar?</p>
+                <div class="d-flex flex-column gap-2 mb-4">
+                    <button class="btn btn-outline-info text-start fw-bold p-3 rounded-3" onclick="seleccionarAccionCant('fijar')">
+                        <i class="fas fa-pen me-2"></i>Ingresar manualmente nueva cantidad
+                    </button>
+                    <button class="btn btn-outline-success text-start fw-bold p-3 rounded-3" onclick="seleccionarAccionCant('sumar')">
+                        <i class="fas fa-plus-circle me-2"></i>Añadir cantidad al stock (+)
+                    </button>
+                    <button class="btn btn-outline-danger text-start fw-bold p-3 rounded-3" onclick="seleccionarAccionCant('restar')">
+                        <i class="fas fa-minus-circle me-2"></i>Restar cantidad al stock (-)
+                    </button>
+                </div>
+                <button class="btn btn-outline-secondary w-100 fw-bold rounded-pill" onclick="cerrarModalCant()">Cancelar</button>
+            </div>
+
+            <div id="vistaInputCant" style="display: none;">
+                <button class="btn btn-sm btn-link text-decoration-none mb-3 px-0 text-secondary fw-bold" onclick="volverOpcionesCant()">
+                    <i class="fas fa-arrow-left me-1"></i>Volver a opciones
+                </button>
+                
+                <div class="mb-4">
+                    <label id="labelInputCant" class="form-label fw-bold">Valor</label>
+                    <input type="number" id="valorEdicionCant" class="form-control input-pro" placeholder="Ej: 5" required min="1" step="1">
+                    <div id="errorModalCant" class="error-msg"></div>
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary w-50 fw-bold rounded-pill" onclick="cerrarModalCant()">Cancelar</button>
+                    <button class="btn btn-mascota w-50" onclick="guardarNuevaCant()" style="background-color: var(--color-principal); box-shadow: 0 4px 0 #0077B6;">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlaySeleccionBase" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="fuente-titulo text-info mb-4"><i class="fas fa-box-open me-2"></i>Origen del Producto</h3>
+            <div class="d-flex flex-column gap-3 mb-4">
+                <button class="btn btn-mascota py-3" onclick="abrirModalCatalogo()">
+                    <i class="fas fa-list me-2"></i>Seleccionar ítem existente
+                </button>
+                <button class="btn btn-outline-secondary fw-bold py-3 rounded-pill border-2" onclick="abrirModalNuevoCatalogo()">
+                    <i class="fas fa-plus me-2"></i>Añadir nuevo ítem manualmente
+                </button>
+            </div>
+            <button class="btn btn-light w-100 fw-bold rounded-pill" onclick="cerrarTodasLasModales()">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="overlayCatalogo" class="modal-overlay">
+        <div class="modal-card modal-card-lg">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fuente-titulo text-info m-0"><i class="fas fa-store me-2"></i>Catálogo de Productos</h3>
+                <button class="btn btn-close" onclick="cerrarTodasLasModales()"></button>
+            </div>
+            <div class="grid-catalogo" id="contenedorMiniCards"></div>
+        </div>
+    </div>
+
+    <div id="overlayNuevoCatalogo" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="fuente-titulo text-warning mb-4"><i class="fas fa-magic me-2"></i>Crear Nuevo Producto</h3>
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Nombre del Producto</label>
+                <input type="text" id="nuevoCatNombre" class="form-control input-pro" placeholder="Ej: Juguete Hueso Goma" required maxlength="45">
+                <div id="errNuevoCatNombre" class="error-msg"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Categoría</label>
+                <select id="nuevoCatCategoria" class="form-select input-pro" required>
+                    <option value="">Selecciona...</option>
+                    <option value="Alimento">Alimento 🍖</option>
+                    <option value="Salud">Salud 🛁</option>
+                    <option value="Diversión">Diversión 🎾</option>
+                </select>
+                <div id="errNuevoCatCat" class="error-msg"></div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label fw-bold">URL de la Foto (Opcional)</label>
+                <input type="text" id="nuevoCatImg" class="form-control input-pro" placeholder="https://ejemplo.com/foto.jpg">
+            </div>
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary w-50 fw-bold rounded-pill" onclick="cerrarTodasLasModales()">Cancelar</button>
+                <button class="btn btn-mascota w-50" onclick="guardarNuevoEnCatalogo()">Añadir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlayConfirmarEliminar" class="modal-overlay">
+        <div class="modal-card modal-card-glass text-center">
+            <i class="fas fa-exclamation-triangle text-danger display-1 mb-3"></i>
+            <h3 class="fuente-titulo text-dark mb-3">¿Estás seguro?</h3>
+            <p class="text-secondary mb-4 fw-bold">¿Deseas eliminar este producto de la base de datos permanentemente?</p>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary w-50 fw-bold rounded-pill" onclick="cerrarModalConfirmarEliminar()">Cancelar</button>
+                <button class="btn btn-danger w-50 fw-bold rounded-pill" onclick="confirmarEliminarCatalogo()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlayConfirmarEliminarInv" class="modal-overlay">
+        <div class="modal-card modal-card-glass text-center">
+            <i class="fas fa-trash-alt text-danger display-1 mb-3"></i>
+            <h3 class="fuente-titulo text-dark mb-3">¿Eliminar del inventario?</h3>
+            <p class="text-secondary mb-4 fw-bold">El producto será retirado de la tabla de inventario actual.</p>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary w-50 fw-bold rounded-pill" onclick="cerrarModalConfirmarEliminarInv()">Cancelar</button>
+                <button class="btn btn-danger w-50 fw-bold rounded-pill" onclick="confirmarEliminarInventario()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+:root {
+    --color-principal: #00B4D8;
+    --color-secundario: #FF9F1C;
+    --color-acento: #E63946;
+    --color-crema: #F8F9FA;
+    --color-oscuro: #2B2D42;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    color: var(--color-oscuro);
+    background-color: var(--color-crema);
+    
+    background-image: url('https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+h1, h2, h3, .fuente-titulo {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 2px;
+}
+
+*:focus-visible {
+    outline: 3px dashed var(--color-secundario) !important;
+    outline-offset: 4px;
+}
+
+/* BOTONES 3D ESTILO MASCOTA */
+.btn-mascota {
+    background-color: var(--color-secundario);
+    color: white;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    box-shadow: 0 4px 0 #CC7E16;
+}
+
+.btn-mascota:hover {
+    background-color: #E68A00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #CC7E16;
+    color: white;
+}
+
+.btn-mascota:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #CC7E16;
+}
+
+/* NUEVO: Botón 3D Cyan para el Navbar (Ir a Inicio) */
+.btn-mascota-cyan {
+    background-color: var(--color-principal);
+    color: white;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    box-shadow: 0 4px 0 #0077B6;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-mascota-cyan:hover {
+    background-color: #0096C7;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #0077B6;
+    color: white;
+}
+
+.btn-mascota-cyan:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #0077B6;
+}
+
+.input-pro {
+    border-radius: 15px;
+    padding: 12px 20px;
+    border: 2px solid #3d405b;
+    background: #ffffff;
+    transition: all 0.3s;
+}
+
+.input-pro:focus {
+    border-color: var(--color-principal);
+    box-shadow: 0 0 10px rgba(0, 180, 216, 0.2);
+}
+
+.tarjeta-custom {
+    background-color: rgba(255, 255, 255, 0.87);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    transition: border-color 0.3s;
+}
+
+.tarjeta-custom:hover {
+    border-color: var(--color-principal);
+}
+
+.error-msg {
+    background-color: #fff5f5;
+    color: var(--color-acento);
+    font-size: 0.85rem;
+    display: none;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border-left: 4px solid var(--color-acento);
+    font-weight: 700;
+}
+
+.titulo-sombra {
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), -1px -1px 3px rgba(255, 255, 255, 0.9);
+}
+
+.texto-sombra {
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+/* MODALES ANIMADOS Y FONDO BORROSO */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.activo {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background: white;
+    border-radius: 25px;
+    padding: 30px;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    transform: translateY(-50px) scale(0.9);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* NUEVA CLASE: Para las modales de confirmación con 87% de opacidad */
+.modal-card.modal-card-glass {
+    background-color: rgba(255, 255, 255, 0.87);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.modal-overlay.activo .modal-card {
+    transform: translateY(0) scale(1);
+}
+
+.modal-card-lg {
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.grid-catalogo {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.mini-card-producto {
+    position: relative; 
+    border: 2px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.mini-card-producto:hover {
+    border-color: var(--color-principal);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 180, 216, 0.15);
+}
+
+.btn-eliminar-cat {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--color-acento);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s, background-color 0.2s;
+    z-index: 10;
+}
+
+.btn-eliminar-cat:hover {
+    transform: scale(1.1);
+    background-color: #c92a37;
+}
+
+.img-catalogo {
+    width: 100%;
+    height: 180px; 
+    object-fit: contain; 
+    background-color: #ffffff;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.icono-editar {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.2s;
+    font-size: 0.9em;
+}
+
+.icono-editar:hover {
+    opacity: 1;
+    transform: scale(1.3);
+}
